@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Table,
-  TableBody,
   TableCell,
   TableFooter,
   TableHead,
@@ -10,13 +9,21 @@ import {
 } from "@/components/ui/table";
 
 import DialogTable from "./DialogTable";
+import DashboardTableData from "./DashboardTableData";
 
-export default function DashboardTable(props) {
+export default async function DashboardTable(props) {
+  const response = await fetch(
+    "https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW?filterKey=category&filterValue=" +
+      props.title.toLowerCase()
+  );
+  const { data } = await response.json();
+  const total = data.reduce((x, y) => x + +y.amount, 0);
+
   return (
     <div>
       <section className="flex justify-between">
         <h3 className="font-semibold">{props.title}</h3>
-        <DialogTable></DialogTable>
+        <DialogTable title={props.title}></DialogTable>
       </section>
       <Table>
         <TableHeader>
@@ -28,19 +35,13 @@ export default function DashboardTable(props) {
             <TableHead className="text-right">Amount</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">1</TableCell>
-            <TableCell className="text-left" colSpan={2}>
-              Gaji
-            </TableCell>
-            <TableCell className="text-right">Rp 500.000</TableCell>
-          </TableRow>
-        </TableBody>
+        {data.map((dataRow, i) => (
+          <DashboardTableData key={i} data={dataRow} rowNumb={i + 1} />
+        ))}
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">Rp 500.000</TableCell>
+            <TableCell className="text-right">Rp {total}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
