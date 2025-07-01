@@ -12,8 +12,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createNewData } from "./action";
+import { getUserName } from "@/utils/getUserName";
 
-export default function DialogTable({ title }) {
+export default async function DialogTable({ title }) {
+  const username = await getUserName();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -43,7 +45,7 @@ export default function DialogTable({ title }) {
               <Input
                 id="username"
                 name="username"
-                value="nalendraprajaa"
+                value={username}
                 readOnly
                 hidden
               />

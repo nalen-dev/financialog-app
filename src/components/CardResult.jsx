@@ -6,9 +6,18 @@ export default function CardResult(props) {
   const [moneyAllocation, setMoneyAllocation] = useState(null);
 
   useEffect(() => {
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(";").shift();
+    };
+
+    const username = getCookie("username");
+
     const fetchData = async () => {
       const response = await fetch(
-        "https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW"
+        "https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW?filterKey=username&filterValue=" +
+          username
       );
       const { data } = await response.json();
 
