@@ -1,14 +1,16 @@
 "use server"
 
 import { revalidatePath } from "next/cache";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function createNewData(formData) {
+
     const name = formData.get("name");
     const amount = formData.get("amount");
     const category = formData.get("category");
     const username = formData.get("username");
 
-    await fetch("https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW", {
+    await fetch(API_URL, {
         method: "POST",
         headers: {
             "Content-Type":"application/json"
@@ -35,7 +37,7 @@ export async function editData(formData){
 }
 
 async function updateData({_id,name,amount}) {
-    await fetch("https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW" , {
+    await fetch(API_URL , {
         method: "PUT",
         headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +48,7 @@ async function updateData({_id,name,amount}) {
 }
 
 async function deleteData(_id) {
-    await fetch("https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW" , {
+    await fetch(API_URL , {
         method: "DELETE",
         headers: {
                 'Content-Type': 'application/json'

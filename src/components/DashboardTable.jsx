@@ -16,7 +16,6 @@ import { filterMoneyFlowData } from "@/utils/filterMoneyFlowData";
 
 export default async function DashboardTable(props) {
   const username = await getUserName();
-  console.log(username);
   const response = await fetch(
     `https://v1.appbackend.io/v1/rows/1Bp2Pkk8ordW?filterKey=username&filterValue=${username}`
   );
